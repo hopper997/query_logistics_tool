@@ -2,6 +2,7 @@ import os
 from enum import Enum
 
 from common.config import PROJECT_NAME
+from common.exts import logger
 
 
 def set_working_dir():
@@ -10,6 +11,17 @@ def set_working_dir():
         cwd_path = pre_path + PROJECT_NAME
         os.chdir(cwd_path)
     return os.getcwd()
+
+
+def get_csv_file():
+    set_working_dir()
+    csv_files = []
+    for _, _, files in os.walk("./data"):
+        for file in files:
+            if file.endswith('.csv'):
+                csv_files.append(file)
+    logger.info(f"csv_files: {csv_files}")
+    return csv_files
 
 
 class Status(Enum):
@@ -22,6 +34,7 @@ class Status(Enum):
     DeliveryFailure = "投递失败"
     Delivered = "成功签收"
     Exception = "可能异常"
+
 
 class SubStatus(Enum):
     NotFound_Other = "运输商没有返回信息."
