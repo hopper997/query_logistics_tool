@@ -67,7 +67,7 @@ def register_logistic_no(csv_file_path: str):
 
 def get_remain_quota():
     res = LogisticApi.get_remain_quota().execute()
-    if res.status_code == 0:
+    if res.status_code == 200:
         res = res.json()
         logger.info(f"当前已经使用的单量:{res['data']['quota_used']},当前剩余的可用单量:{res['data']['quota_remain']}")
     else:
