@@ -6,5 +6,5 @@ def main():
 
 if __name__ == '__main__':
     get_remain_quota()
-    # main()
+    main()
 
