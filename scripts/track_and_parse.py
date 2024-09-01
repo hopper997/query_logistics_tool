@@ -1,15 +1,10 @@
-import os
 import time
 
 import pandas as pd
 
 from api.logistic import LogisticApi
-from common.config import PROJECT_NAME
 from common.exts import logger
-from common.util import Status, SubStatus, set_working_dir, get_csv_file
-
-CSV_FILE_PATH = os.path.join("data", get_csv_file()[0])
-CSV_FILE_PATH = os.path.normpath(CSV_FILE_PATH).replace('\\', '/')
+from common.util import Status, SubStatus, set_working_dir
 
 
 def parse_csv_file(csv_file_path: str):
@@ -50,7 +45,7 @@ def register_logistic_no(csv_file_path: str):
         for rejected_data in res["data"]["rejected"]:
             logger.info(f"rejected_data:{rejected_data}")
             express_no = rejected_data.get("number")
-            error_code =  rejected_data.get("error").get("code")
+            error_code = rejected_data.get("error").get("code")
             # todo 如果是已被注册的错误 则直接将物流单号添加到accepted_logistic_nos
             if error_code == -18019901:
                 accepted_logistic_nos.append(express_no)
@@ -116,7 +111,7 @@ def query_logistic_detail(csv_file_path: str):
     return accepted_logistic_info, rejected_logistic_info
 
 
-def write_logistic_detail_to_csv(csv_file_path: str = CSV_FILE_PATH):
+def write_logistic_detail_to_csv(csv_file_path: str):
     logger.info(f"csv_file_path:{csv_file_path}")
     accepted_logistic_info, rejected_logistic_info = query_logistic_detail(csv_file_path)
     # 读取原始 CSV 文件
